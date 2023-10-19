@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main()
+{
+	FILE *fp;
+	fp = fopen("data.txt","r");
+	int ch = getc(fp);
+	
+	while(ch != EOF){
+		putchar(ch);
+		ch = getc(fp);
+	}
+	
+	if (feof(fp)){
+		printf("\nBerikut Data yang ada pada fie (data.txt).");
+	}else 
+	    printf("\n something wrong,");
+	    
+	fclose(fp);
+	getchar();
+	
+	return 0;
+}
