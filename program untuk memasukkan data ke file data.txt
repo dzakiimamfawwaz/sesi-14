@@ -1,0 +1,68 @@
+#include <stdio.h>
+
+struct Person {
+    int id;
+    char firstName[100];
+    char lastName[100];
+    double deposit;
+};
+
+void displayData(struct Person people[], int numEntries) {
+    printf("Data yang dimasukkan:\n");
+    for (int i = 0; i < numEntries; i++) {
+        printf("ID: %d\n", people[i].id);
+        printf("Nama: %s %s\n", people[i].firstName, people[i].lastName);
+        printf("Deposit: %.2lf\n", people[i].deposit);
+        printf("\n");
+    }
+}
+
+int main() {
+    int selesai;
+    FILE *pFile;
+
+    pFile = fopen("data.txt", "w");
+
+    if (pFile == NULL) {
+        printf("File tidak bisa dibuka!\n");
+        return 1;
+    }
+
+    struct Person people[100]; // Assuming a maximum of 100 entries
+
+    int numEntries = 0; // To keep track of the number of entries
+
+    do {
+        // Prompt the user for input and store it in the array
+        printf("Masukkan ID            : ");
+        scanf("%d", &people[numEntries].id);
+
+        printf("Masukkan nama depan    : ");
+        scanf("%99s", people[numEntries].firstName);
+
+        printf("Masukkan nama belakang : ");
+        scanf("%99s", people[numEntries].lastName);
+
+        printf("Masukkan deposit       : ");
+        scanf("%lf", &people[numEntries].deposit);
+
+        displayData(people, numEntries); // Display the entered data
+
+        printf("\n(Lanjut '0' . Selesai ketik apapun dan enter)");
+        scanf("%d", &selesai);
+
+        numEntries++; // Increment the number of entries
+
+    } while (selesai == 0);
+
+    // Write all data to the file
+    for (int i = 0; i < numEntries; i++) {
+        fprintf(pFile, "ID      : %d\n", people[i].id);
+        fprintf(pFile, "Nama    : %s %s\n", people[i].firstName, people[i].lastName);
+        fprintf(pFile, "Deposit : %.2lf\n", people[i].deposit);
+    }
+
+    fclose(pFile);
+
+    return 0;
+}
